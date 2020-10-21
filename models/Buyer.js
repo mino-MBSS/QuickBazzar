@@ -7,17 +7,33 @@ const buyerSchema = new mongoose.Schema({
         ref: 'User'
     },
 
-    cart:[
-       {product:{
-           type: ObjectId,
-           ref:'Product'
-       }},
-       {price:{
-           type:Number
-       }},
-       {quantity:{
-           type:Number
-       }},
+    // cart:[
+    //    {product:{
+    //        type: ObjectId,
+    //        ref:'Product'
+    //    }},
+    //    {price:{
+    //        type:Number
+    //    }},
+    //    {quantity:{
+    //        type:Number
+    //    }},
+    // ],
+    cart:[{
+        product:{
+            type: ObjectId,
+            ref:'Product'
+        },
+        price:{
+            type:Number
+        },
+        quantity:{
+            type:Number
+        },
+    }
+       
+     ],
+
     //    {shippingInfo:{
     //       {location:{
     //           type:String
@@ -34,7 +50,6 @@ const buyerSchema = new mongoose.Schema({
     //         phoneNum:Number
     //     }
     // }
-  ],
   orderAt: {type: Date},
 
   shippingInfo:{
