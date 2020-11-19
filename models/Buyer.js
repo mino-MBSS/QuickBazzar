@@ -7,18 +7,6 @@ const buyerSchema = new mongoose.Schema({
         ref: 'User'
     },
 
-    // cart:[
-    //    {product:{
-    //        type: ObjectId,
-    //        ref:'Product'
-    //    }},
-    //    {price:{
-    //        type:Number
-    //    }},
-    //    {quantity:{
-    //        type:Number
-    //    }},
-    // ],
     cart:[{
         product:{
             type: ObjectId,
@@ -34,22 +22,6 @@ const buyerSchema = new mongoose.Schema({
        
      ],
 
-    //    {shippingInfo:{
-    //       {location:{
-    //           type:String
-    //          }
-    //       },
-    //       {phoneNum:{
-    //           type:Number
-    //          }
-    //       }
-    //     }}
-    // {
-    //     shippingInfo:{
-    //         location:String,
-    //         phoneNum:Number
-    //     }
-    // }
   orderAt: {type: Date},
 
   shippingInfo:{

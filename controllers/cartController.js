@@ -1,10 +1,21 @@
+const Product = require('../models/Product');
 const Buyer = require('./../models/Buyer');
 const Seller = require('./../models/Seller');
 
-const Item ={
+ var buyerCartItem ={
   id:String,
   price:Number,
   quantity:Number
+}
+
+var sellerOrderItem ={
+  id:String,
+  price:Number,
+  quantity:Number,
+  shippingInfo:{
+    location:String,
+    phone:Number
+  }
 }
 
 exports.addToCart = async(req, res) => {
@@ -13,73 +24,39 @@ exports.addToCart = async(req, res) => {
   //  console.log(products);
    const shippingDetails = req.body.shippingDetails;
 
-    //  for(i=0; i<products.length; i++){
-    //    buyer.update(
-    //      {
-    //      $push:{
-    //        cart:{product: products[i].Id, price: products[i].price, quantity: products[i].qty}
-    //            }
-    //       }
-    //         )
-    //  }
-       for(i=0; i<products.length; i++){
-               buyer.cart[i].product =products[i].Id;
-               console.log(buyer.cart[i].product);
+      for(i=0; i<products.length; i++){
 
-               buyer.cart[i].price =products[i].price;
-               console.log(buyer.cart[i].price);
+          buyerCartItem.id = products[i].Id;
+          buyerCartItem.price = products[i].price;
+          buyerCartItem.quantity = products[i].qty;
+          buyer.cart.push(buyerCartItem);
 
-               buyer.cart[i].quantity =products[i].qty;
-               console.log(buyer.cart[i].quantity);
+          const product = await Product.findById(products[i].Id);
+          // console.log(product.seller);
+          const seller = await Seller.findById(product.seller);
 
-               buyer.cart.push(buyer.cart[i]);
-       }
-  // console.log(buyer.cart)
+
+          // console.log("seller is: "+seller);
+          sellerOrderItem.id = products[i].Id;
+          sellerOrderItem.price = products[i].price;
+          sellerOrderItem.quantity = products[i].qty;
+          sellerOrderItem.shippingInfo.location = shippingDetails.shippingAddress;
+          sellerOrderItem.shippingInfo.phone = shippingDetails.phone;
+
+          // console.log("location is"+sellerOrderItem.shippingInfo.phone );
+          // console.log("location is"+sellerOrderItem.shippingInfo.location );
+
+          // console.log("seller order item is"+ sellerOrderItem);
+          // console.log(sellerOrderItem);
+
+          seller.orders.push(sellerOrderItem);
+          await seller.save();
+}
 
 buyer.shippingInfo.location = shippingDetails.shippingAddress;
 buyer.shippingInfo.phone = shippingDetails.phone;
-
 
 await buyer.save();
 
 }
 
-  //  for(i=0; i<products.length; i++){
-  //           const item = Object.create(Item);
-  //           item.product = products[i].Id;
-  //           // console.log("i="+i +","+ item.product);
-
-  //           item.price = products[i].price;
-  //           // console.log("i="+i +","+ item.price);
-
-  //           item.quantity = products[i].qty;
-  //           // console.log("i="+i +","+ item.quantity);
-
-  //           buyer.cart.push(item);
-  //           // console.log(item);
-  //  }
-  // [
-  //   {
-  //     Id: '5f830102be89002e5cfb3055',
-  //     qty: 3,
-  //     name: 'Samsung Galaxy A100',
-  //     price: 35000
-  //   },
-  //   {
-  //     Id: '5f81c4f7205f8f2e10dcd89d',
-  //     qty: 2,
-  //     name: 'Iphone12',
-  //     price: 200
-  //   }
-  // ]
-  // for(i=0; i<products.length; i++){
-  //   // buyer.cart.push(products[i]);
-  //   console.log(products[i].Id);
-  //   console.log(products[i].price);
-  //   console.log(products[i].qty);
-  // }
-
-    //  buyer.update(
-  //    {$push:{cart:{$each:products}}},
-  //   //  {cart.shippingInfo.location:},
-  //  )

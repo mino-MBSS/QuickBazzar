@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const axios = require('axios');
+const fs = require('fs');
 
 require('dotenv').config();
 require('./connections/mongodb-con');
@@ -25,8 +27,31 @@ app.use('/api/products', productRouter);
 app.use('/api/seller', sellerRouter);
 app.use('/api/cart', cartRouter);
 
+app.post('/api/esewa', (req, res) =>{
+    console.log("esewa from backend");
+    // console.log(req.body)
+   axios.post('https://uat.esewa.com.np/epay/main',{
+       ...req.body
+   })
+   .then(result=>{
+    //    console.log(result);
+    //  res.send(result.data)
+    //    esewaPage =fs.readFileSync(data);
+    //    console.log("Esewa page is "+esewaPage);
+      
+    // res.setHeader('Content-Type', "text/html");
+
+    //    res.write(result.data);
+    //    res.end();
+       res.send(result.data);
+
+    })
+//    .catch(err=>res.send(err))
+      .catch(err=>console.log("error is"+err))
+})
+
 const port = process.env.PORT || 8080;
 app.listen(port, ()=>{
-    console.log(port);
+    // console.log(port);
     console.log(`App running on port: ${port}`);
 })

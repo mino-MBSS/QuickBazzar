@@ -10,4 +10,8 @@ router
    .post(getUserId, sellerController.createProduct)
    .put(getUserId, sellerController.updateProduct);
 
+router
+   .route('/orders')
+   .get(getUserId, sellerController.getAllOrdersForSeller);
+
    module.exports = router;

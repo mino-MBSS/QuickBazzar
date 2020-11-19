@@ -1,4 +1,5 @@
 const Product = require('./../models/Product');
+const Seller = require('../models/Seller');
 
 exports.createProduct = async (req, res) =>{
     const product = new Product({
@@ -21,6 +22,12 @@ exports.getAllProductsBySellerId = async (req,res) => {
 }
 
 exports.updateProduct = async (req, res) => {
-    console.log("updating"+ req.body._id);
+    // console.log("updating"+ req.body._id);
      await Product.findByIdAndUpdate(req.body._id, req.body).exec();
+}
+
+exports.getAllOrdersForSeller = async(req, res) => {
+    const seller = await Seller.findById(req.userId);
+    res.send(seller.orders);
+
 }
